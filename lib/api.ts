@@ -1,9 +1,12 @@
 import * as SecureStore from "expo-secure-store";
 
-// Your PC's LAN IP — your phone can't reach "localhost", since that means
-// the phone itself. Update this if your PC's IP changes (e.g. reconnecting
-// to a different WiFi network).
 export const API_BASE = "http://192.168.0.101:8000";
+
+export function resolveImageUrl(url: string | null | undefined): string {
+  if (!url) return "";
+  return url.startsWith("http") ? url : `${API_BASE}${url}`;
+}
+
 const REFRESH_TOKEN_KEY = "smartclick_refresh_token";
 
 let accessToken: string | null = null;
@@ -54,11 +57,6 @@ async function doRefresh(): Promise<boolean> {
   return true;
 }
 
-/**
- * Called once when the app starts, to silently restore a session from the
- * refresh token in secure storage — the mobile equivalent of the web app's
- * cookie-based session restore on page load.
- */
 export async function initAuth(): Promise<boolean> {
   refreshInFlight = doRefresh();
   const ok = await refreshInFlight;
@@ -66,7 +64,6 @@ export async function initAuth(): Promise<boolean> {
   return ok;
 }
 
-/** Called right after a successful login/register response. */
 export async function persistAuthResponse(data: { access_token: string; refresh_token?: string }) {
   accessToken = data.access_token;
   if (data.refresh_token) await storeRefreshToken(data.refresh_token);
@@ -102,7 +99,6 @@ export async function apiFetch(path: string, options: RequestOptions = {}) {
   return res;
 }
 
-/** FastAPI error shape normalizer — same pattern as the web app. */
 export function extractErrorMessage(body: any, fallback: string): string {
   if (typeof body?.detail === "string") return body.detail;
   if (Array.isArray(body?.detail)) {

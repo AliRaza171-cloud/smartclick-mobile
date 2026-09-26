@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { HeroImage } from "../lib/hero-images";
-import { API_BASE } from "../lib/api";
+import { API_BASE, resolveImageUrl } from "../lib/api";
 import { colors } from "../lib/theme";
 
 const HEIGHT = 170;
@@ -68,7 +68,7 @@ export default function HeroCarousel({ images }: { images: HeroImage[] }) {
             onMomentumScrollEnd={handleScrollEnd}
             renderItem={({ item }) => (
               <Image
-                source={{ uri: `${API_BASE}${item.image_url}` }}
+                source={{ uri: `${resolveImageUrl(item.image_url)}` }}
                 style={{ width: containerWidth, height: HEIGHT }}
               />
             )}

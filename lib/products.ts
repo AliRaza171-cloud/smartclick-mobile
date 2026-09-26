@@ -1,4 +1,4 @@
-import { API_BASE } from "./api";
+import { API_BASE, resolveImageUrl } from "./api";
 
 export interface Product {
   id: string;
@@ -27,8 +27,8 @@ function mapProduct(p: any): Product {
     originalPrice: p.discount_pct ? original : undefined,
     discountPct: p.discount_pct ?? undefined,
     freeShipping: p.free_shipping,
-    imageUrls: (p.image_urls || []).map((url: string) => `${API_BASE}${url}`),
-    videoUrl: p.video_url ? `${API_BASE}${p.video_url}` : undefined,
+    imageUrls: (p.image_urls || []).map((url: string) => resolveImageUrl(url)),
+    videoUrl: p.video_url ? resolveImageUrl(p.video_url) : undefined,
     averageRating: p.average_rating,
     reviewCount: p.review_count,
   };

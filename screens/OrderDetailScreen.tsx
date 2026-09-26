@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { fetchOrder, Order } from "../lib/orders";
 import { cancelOrder, requestCancellation } from "../lib/order-messages";
 import { colors, fonts } from "../lib/theme";
-import { API_BASE } from "../lib/api";
+import { API_BASE, resolveImageUrl } from "../lib/api";
 
 const STEPS: { key: string; label: string }[] = [
   { key: "pending", label: "Processing" },
@@ -150,7 +150,7 @@ export default function OrderDetailScreen({ route, navigation }: any) {
         {order.items.map((item, i) => (
           <View key={i} style={styles.itemRow}>
             <Image
-              source={item.image_url ? { uri: `${API_BASE}${item.image_url}` } : undefined}
+              source={item.image_url ? { uri: `${resolveImageUrl(item.image_url)}` } : undefined}
               style={styles.itemImage}
             />
             <View style={{ flex: 1 }}>

@@ -1,9 +1,9 @@
 import { Image, StyleSheet } from "react-native";
-import { API_BASE } from "../lib/api";
+import { API_BASE, resolveImageUrl } from "../lib/api";
 import { colors } from "../lib/theme";
 
 export default function PromoBannerStrip({ imageUrl }: { imageUrl: string }) {
-  return <Image source={{ uri: `${API_BASE}${imageUrl}` }} style={styles.image} />;
+  return <Image source={{ uri: `${resolveImageUrl(imageUrl)}` }} style={styles.image} />;
 }
 
 const styles = StyleSheet.create({

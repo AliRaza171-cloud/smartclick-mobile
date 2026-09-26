@@ -1,4 +1,4 @@
-import { apiFetch, API_BASE } from "./api";
+import { apiFetch, API_BASE, resolveImageUrl } from "./api";
 import { Product } from "./products";
 
 function mapProduct(p: any): Product {
@@ -13,7 +13,7 @@ function mapProduct(p: any): Product {
     originalPrice: p.discount_pct ? original : undefined,
     discountPct: p.discount_pct ?? undefined,
     freeShipping: p.free_shipping,
-    imageUrls: (p.image_urls || []).map((url: string) => `${API_BASE}${url}`),
+    imageUrls: (p.image_urls || []).map((url: string) => resolveImageUrl(url)),
   };
 }
 
